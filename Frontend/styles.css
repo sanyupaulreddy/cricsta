@@ -1,0 +1,211 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f9f9f9;
+}
+
+.header {
+    text-align: center;
+    padding: 20px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.menu-bar {
+    background-color: #333;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.menu-bar button {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 16px;
+    background-color: #333;
+    border: none;
+    cursor: pointer;
+}
+
+.menu-bar button:hover {
+    background-color: #45a049;
+}
+
+.menu-bar button.active {
+    background-color: #4CAF50;
+}
+
+.content {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section {
+    margin-bottom: 40px;
+}
+
+h2 {
+    color: #333;
+}
+
+/* Stylish Welcome Heading */
+.welcome-heading {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    background: linear-gradient(45deg, #4CAF50, #45a049);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Cricket Facts Section */
+.cricket-facts {
+    margin-top: 20px;
+}
+
+.cricket-facts h3 {
+    font-size: 24px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.cricket-facts ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cricket-facts li {
+    background-color: #fff;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+}
+
+select, button {
+    padding: 8px;
+    margin: 5px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.graph-container {
+    width: 800px;
+    height: 500px;
+    margin: 20px auto;
+}
+
+.graph-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#head-to-head-result {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+/* Trophy Bar Styles */
+.trophy-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Space between trophies */
+    flex-wrap: wrap; /* Responsive wrapping */
+    margin: 20px 0;
+}
+
+.trophy-item {
+    text-align: center;
+}
+
+.trophy-item h3 {
+    font-size: 1.4em;
+    color: #4CAF50; /* Matches your theme */
+    margin-bottom: 10px;
+}
+
+.trophy-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover; /* Ensures image fits nicely */
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Matches cricket-facts shadow */
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.trophy-img:hover {
+    transform: scale(1.1);
+}
+
+.trophy-section {
+    margin-top: 20px;
+}
+
+.trophy-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.trophy-table th, .trophy-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.trophy-table th {
+    background-color: #4CAF50;
+    color: white;
+}

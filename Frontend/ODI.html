@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ODI Player Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .form-container {
+            margin: 20px 0;
+        }
+        select, button {
+            padding: 8px;
+            margin: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .graph-container {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>ODI Player Statistics</h1>
+
+    <!-- Top 10 Batsmen -->
+    <div class="section">
+        <h2>Top 10 Batsmen</h2>
+        {{ batting_table | safe }}
+        <h3>Runs Graph</h3>
+        <img src="{{ batting_graph }}" alt="Top 10 Batsmen Runs Graph">
+    </div>
+
+    <!-- Compare Batsmen -->
+    <div class="section">
+        <h2>Compare Batsmen</h2>
+        <label for="batting-player1">Player 1:</label>
+        <select id="batting-player1">
+            <option value="">Select Player 1</option>
+            {% for player in batting_players %}
+                <option value="{{ player }}">{{ player }}</option>
+            {% endfor %}
+        </select>
+        <label for="batting-player2">Player 2:</label>
+        <select id="batting-player2">
+            <option value="">Select Player 2</option>
+            {% for player in batting_players %}
+                <option value="{{ player }}">{{ player }}</option>
+            {% endfor %}
+        </select>
+        <label for="batting-attribute">Attribute:</label>
+        <select id="batting-attribute">
+            <option value="Runs">Runs</option>
+            <option value="Mat">Matches</option>
+            <option value="Ave">Average</option>
+            <option value="SR">Strike Rate</option>
+            <option value="100">Centuries</option>
+            <option value="50">Half-Centuries</option>
+        </select>
+        <button onclick="compareBattingPlayers()">Compare</button>
+        <div class="graph-container">
+            <canvas id="battingComparisonGraph"></canvas>
+        </div>
+    </div>
+
+    <!-- Top 10 Bowlers -->
+    <div class="section">
+        <h2>Top 10 Bowlers</h2>
+        {{ bowling_table | safe }}
+        <h3>Wickets Graph</h3>
+        <img src="{{ bowling_graph }}" alt="Top 10 Bowlers Wickets Graph">
+    </div>
+
+    <!-- Compare Bowlers -->
+    <div class="section">
+        <h2>Compare Bowlers</h2>
+        <label for="bowling-player1">Player 1:</label>
+        <select id="bowling-player1">
+            <option value="">Select Player 1</option>
+            {% for player in bowling_players %}
+                <option value="{{ player }}">{{ player }}</option>
+            {% endfor %}
+        </select>
+        <label for="bowling-player2">Player 2:</label>
+        <select id="bowling-player2">
+            <option value="">Select Player 2</option>
+            {% for player in bowling_players %}
+                <option value="{{ player }}">{{ player }}</option>
+            {% endfor %}
+        </select>
+        <label for="bowling-attribute">Attribute:</label>
+        <select id="bowling-attribute">
+            <option value="Wkts">Wickets</option>
+            <option value="Mat">Matches</option>
+            <option value="Ave">Average</option>
+            <option value="Econ">Economy</option>
+            <option value="SR">Strike Rate</option>
+            <option value="4">Four-Wickets</option>
+            <option value="5">Five-Wickets</option>
+        </select>
+        <button onclick="compareBowlingPlayers()">Compare</button>
+        <div class="graph-container">
+            <canvas id="bowlingComparisonGraph"></canvas>
+        </div>
+    </div>
+
+    <!-- Head-to-Head Section -->
+    <div id="head-to-head" class="section">
+        <h2>Head-to-Head Prediction</h2>
+        <div class="form-container">
+            <label for="batsman">Select Batsman:</label>
+            <select id="batsman" name="batsman">
+                <option value="">Select Batsman</option>
+                {% for batsman in batsmen %}
+                    <option value="{{ batsman }}">{{ batsman }}</option>
+                {% endfor %}
+            </select>
+            <label for="bowler">Select Bowler:</label>
+            <select id="bowler" name="bowler">
+                <option value="">Select Bowler</option>
+                {% for bowler in bowlers %}
+                    <option value="{{ bowler }}">{{ bowler }}</option>
+                {% endfor %}
+            </select>
+            <button onclick="predictHeadToHead()">Predict</button>
+        </div>
+        <div id="head-to-head-result">
+            {% if head_to_head_result %}
+                {% if head_to_head_result.error %}
+                    <p>{{ head_to_head_result.error }}</p>
+                {% else %}
+                    <p><strong>{{ head_to_head_result.batsman }}</strong> vs <strong>{{ head_to_head_result.bowler }}</strong></p>
+                    <p>Sixes: {{ head_to_head_result.sixes }}</p>
+                    <p>Wickets: {{ head_to_head_result.wickets }}</p>
+                    <p>Average: {{ head_to_head_result.average }}</p>
+                    <p>Strike Rate: {{ head_to_head_result.strike_rate }}</p>
+                    <p>Predicted Winner: {{ head_to_head_result.winner }} (Confidence: {{ head_to_head_result.confidence }})</p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
