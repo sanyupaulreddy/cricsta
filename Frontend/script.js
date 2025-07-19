@@ -1,9 +1,16 @@
+javascript
 // API URL Configuration - automatically adapts to environment
 const FLASK_API_URL = (() => {
-  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    return 'http://127.0.0.1:5000'; // Local development
+  const host = window.location.hostname;
+  const protocol = window.location.protocol;
+  
+  // Local development
+  if (host === 'localhost' || host === '127.0.0.1') {
+    return 'http://127.0.0.1:5000';
   }
-  return 'https://cricsta.onrender.com'; // Production - replace with your Render URL
+  
+  // Production (replace with your actual Render URL)
+  return 'https://cricsta.onrender.com'; 
 })();
 
 // Global chart references
