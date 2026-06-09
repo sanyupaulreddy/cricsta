@@ -3,287 +3,595 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cricsta – Choose a Format</title>
-    <meta name="description" content="Cricsta cricket analytics platform. Choose a format to explore ODI, T20 or Test statistics.">
+    <title>Cricsta – Cricket Analytics</title>
+    <meta name="description" content="Cricsta: Premium data-driven cricket analytics. Explore ODI, T20, and Test cricket statistics.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* ═══════════════════════════════════════════════
+           RESET & BASE
+        ═══════════════════════════════════════════════ */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; }
 
         body {
-            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-            background: #0f1117;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #060a0f;
             color: #e2e8f0;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 24px;
             overflow-x: hidden;
         }
 
-        /* Animated grid background */
-        body::before {
-            content: '';
+        /* ═══════════════════════════════════════════════
+           ANIMATED BACKGROUND
+        ═══════════════════════════════════════════════ */
+        .bg-scene {
             position: fixed;
             inset: 0;
-            background-image:
-                linear-gradient(rgba(34,197,94,.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(34,197,94,.04) 1px, transparent 1px);
-            background-size: 48px 48px;
-            pointer-events: none;
             z-index: 0;
+            overflow: hidden;
         }
 
-        /* Glow orbs */
-        body::after {
+        /* deep radial gradient base */
+        .bg-scene::before {
             content: '';
-            position: fixed;
-            top: -200px; left: 50%;
-            transform: translateX(-50%);
-            width: 700px; height: 400px;
-            background: radial-gradient(ellipse, rgba(34,197,94,.07) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 10%,  rgba(34,197,94,.13)  0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 80%,  rgba(59,130,246,.10) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 40% at 60% 30%,  rgba(168,85,247,.07) 0%, transparent 50%),
+                linear-gradient(135deg, #060a0f 0%, #0c1420 50%, #060e0a 100%);
         }
 
-        .card {
+        /* fine dot grid */
+        .bg-scene::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,.04) 1px, transparent 1px);
+            background-size: 36px 36px;
+        }
+
+        /* floating orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: drift linear infinite;
+            pointer-events: none;
+        }
+        .orb-1 { width:500px; height:500px; top:-100px; left:-150px;  background: rgba(34,197,94,.08);  animation-duration: 22s; }
+        .orb-2 { width:400px; height:400px; top:40%;   right:-100px;  background: rgba(59,130,246,.07); animation-duration: 28s; animation-direction: reverse; }
+        .orb-3 { width:350px; height:350px; bottom:-80px; left:30%;   background: rgba(168,85,247,.06); animation-duration: 18s; }
+
+        @keyframes drift {
+            0%   { transform: translate(0,0) scale(1); }
+            33%  { transform: translate(40px,-30px) scale(1.05); }
+            66%  { transform: translate(-20px,50px) scale(.95); }
+            100% { transform: translate(0,0) scale(1); }
+        }
+
+        /* flying cricket ball */
+        .ball {
+            position: absolute;
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            border: 2px solid rgba(239,68,68,.15);
+            box-shadow: 0 0 60px rgba(239,68,68,.06), inset 0 0 40px rgba(239,68,68,.03);
+            top: 12%; right: 8%;
+            animation: floatBall 7s ease-in-out infinite;
+        }
+        .ball::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 0; right: 0;
+            height: 2px;
+            background: rgba(239,68,68,.25);
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+        .ball::after {
+            content: '';
+            position: absolute;
+            left: 50%; top: 0; bottom: 0;
+            width: 2px;
+            background: rgba(239,68,68,.15);
+            border-radius: 50%;
+        }
+        @keyframes floatBall {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50%       { transform: translateY(-24px) rotate(18deg); }
+        }
+
+        /* stump lines */
+        .stumps {
+            position: absolute;
+            bottom: 8%; left: 6%;
+            display: flex; gap: 10px; align-items: flex-end;
+            opacity: .06;
+        }
+        .stump { width: 6px; height: 120px; background: #e2e8f0; border-radius: 3px; }
+        .stump:nth-child(2) { height: 130px; }
+        .bail {
+            position: absolute;
+            top: 0; left: -2px; right: -2px; height: 4px;
+            background: #e2e8f0; border-radius: 2px;
+            transform: rotate(-5deg);
+        }
+
+        /* ═══════════════════════════════════════════════
+           LAYOUT
+        ═══════════════════════════════════════════════ */
+        .page {
             position: relative;
             z-index: 1;
-            background: rgba(26, 31, 46, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid #2e3550;
-            border-radius: 24px;
-            padding: 52px 56px;
-            text-align: center;
-            max-width: 520px;
-            width: 100%;
-            box-shadow: 0 8px 40px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.03);
-            animation: fadeUp .5s ease both;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px 60px;
         }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
+        /* ═══════════════════════════════════════════════
+           HEADER / BRAND
+        ═══════════════════════════════════════════════ */
+        .brand {
+            text-align: center;
+            margin-bottom: 64px;
+            animation: slideDown .7s cubic-bezier(.16,1,.3,1) both;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-28px); }
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        .logo {
-            display: inline-block;
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(120deg, #4ade80, #22c55e, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -.03em;
-            margin-bottom: 6px;
-        }
-
-        .tagline {
-            font-size: .82rem;
-            color: #475569;
-            margin-bottom: 36px;
-            letter-spacing: .1em;
+        .brand-eyebrow {
+            font-size: .7rem;
+            font-weight: 600;
+            letter-spacing: .22em;
             text-transform: uppercase;
-        }
-
-        h1 {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #64748b;
-            margin-bottom: 28px;
-            letter-spacing: .02em;
-        }
-
-        /* ── Format Cards ─────────────────────────────── */
-        .format-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .format-card {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            padding: 18px 20px;
-            border-radius: 14px;
-            text-decoration: none;
-            border: 1px solid transparent;
-            transition: all .22s ease;
-            cursor: pointer;
-            text-align: left;
-        }
-
-        /* Active: ODI */
-        .format-card.active {
-            background: linear-gradient(135deg, rgba(34,197,94,.12), rgba(34,197,94,.05));
-            border-color: rgba(34,197,94,.3);
-        }
-        .format-card.active:hover {
-            background: linear-gradient(135deg, rgba(34,197,94,.2), rgba(34,197,94,.08));
-            border-color: rgba(34,197,94,.55);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 28px rgba(34,197,94,.18);
-        }
-
-        /* Locked: T20 */
-        .format-card.locked-t20 {
-            background: linear-gradient(135deg, rgba(59,130,246,.07), rgba(59,130,246,.03));
-            border-color: rgba(59,130,246,.15);
-            cursor: not-allowed;
-        }
-
-        /* Locked: Test */
-        .format-card.locked-test {
-            background: linear-gradient(135deg, rgba(245,158,11,.07), rgba(245,158,11,.03));
-            border-color: rgba(245,158,11,.15);
-            cursor: not-allowed;
-        }
-
-        .format-icon {
-            font-size: 2rem;
-            flex-shrink: 0;
-            width: 52px;
-            height: 52px;
+            color: #22c55e;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
-        }
-
-        .format-card.active    .format-icon { background: rgba(34,197,94,.12); }
-        .format-card.locked-t20  .format-icon { background: rgba(59,130,246,.1); }
-        .format-card.locked-test .format-icon { background: rgba(245,158,11,.1); }
-
-        .format-info { flex: 1; }
-
-        .format-name {
-            font-size: 1rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
             gap: 10px;
-            margin-bottom: 3px;
+        }
+        .brand-eyebrow::before,
+        .brand-eyebrow::after {
+            content: '';
+            display: block;
+            height: 1px;
+            width: 40px;
+            background: linear-gradient(90deg, transparent, #22c55e);
+        }
+        .brand-eyebrow::after { background: linear-gradient(90deg, #22c55e, transparent); }
+
+        .brand-name {
+            font-size: clamp(3.2rem, 8vw, 6rem);
+            font-weight: 900;
+            letter-spacing: -.04em;
+            line-height: 1;
+            background: linear-gradient(135deg, #ffffff 0%, #a3e635 30%, #22c55e 60%, #4ade80 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 18px;
         }
 
-        .format-card.active    .format-name { color: #4ade80; }
-        .format-card.locked-t20  .format-name { color: #93c5fd; }
-        .format-card.locked-test .format-name { color: #fcd34d; }
-
-        .format-desc {
-            font-size: .78rem;
-            color: #475569;
-            line-height: 1.4;
+        .brand-sub {
+            font-size: clamp(.95rem, 2vw, 1.15rem);
+            color: #64748b;
+            font-weight: 400;
+            max-width: 460px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
 
-        .format-card.active .format-desc { color: #6ee7b7; opacity: .7; }
+        .brand-sub strong {
+            color: #94a3b8;
+            font-weight: 500;
+        }
 
-        .badge {
+        /* ═══════════════════════════════════════════════
+           FORMAT GRID
+        ═══════════════════════════════════════════════ */
+        .formats-label {
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            color: #334155;
+            text-align: center;
+            margin-bottom: 24px;
+            animation: slideDown .7s .15s cubic-bezier(.16,1,.3,1) both;
+        }
+
+        .format-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            animation: slideUp .7s .25s cubic-bezier(.16,1,.3,1) both;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(32px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Base card ─────────────────────────────────── */
+        .fc {
+            position: relative;
+            border-radius: 20px;
+            padding: 32px 28px;
+            border: 1px solid transparent;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            transition: transform .28s cubic-bezier(.16,1,.3,1), box-shadow .28s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-height: 280px;
+        }
+
+        /* inner noise texture */
+        .fc::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+            border-radius: inherit;
+            pointer-events: none;
+        }
+
+        /* glow spot on hover */
+        .fc::after {
+            content: '';
+            position: absolute;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            top: -60px; right: -60px;
+            filter: blur(50px);
+            opacity: 0;
+            transition: opacity .4s ease;
+            pointer-events: none;
+        }
+
+        .fc:hover { transform: translateY(-6px); }
+        .fc:hover::after { opacity: 1; }
+
+        /* ── ODI (green) ──────────────────────────────── */
+        .fc-odi {
+            background: linear-gradient(145deg, rgba(20,40,25,.9) 0%, rgba(10,28,16,.95) 100%);
+            border-color: rgba(34,197,94,.25);
+            box-shadow: 0 4px 32px rgba(34,197,94,.08), inset 0 1px 0 rgba(255,255,255,.04);
+        }
+        .fc-odi::after { background: rgba(34,197,94,1); }
+        .fc-odi:hover {
+            box-shadow: 0 16px 48px rgba(34,197,94,.2), 0 0 0 1px rgba(34,197,94,.4),
+                        inset 0 1px 0 rgba(255,255,255,.08);
+        }
+
+        /* ── T20 (blue-purple) ────────────────────────── */
+        .fc-t20 {
+            background: linear-gradient(145deg, rgba(15,20,45,.9) 0%, rgba(10,14,38,.95) 100%);
+            border-color: rgba(99,102,241,.2);
+            box-shadow: 0 4px 32px rgba(99,102,241,.06), inset 0 1px 0 rgba(255,255,255,.03);
+            cursor: default;
+        }
+        .fc-t20::after { background: rgba(99,102,241,1); }
+        .fc-t20:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 36px rgba(99,102,241,.14), 0 0 0 1px rgba(99,102,241,.3),
+                        inset 0 1px 0 rgba(255,255,255,.06);
+        }
+
+        /* ── Test (gold) ──────────────────────────────── */
+        .fc-test {
+            background: linear-gradient(145deg, rgba(35,25,5,.9) 0%, rgba(28,18,4,.95) 100%);
+            border-color: rgba(245,158,11,.18);
+            box-shadow: 0 4px 32px rgba(245,158,11,.06), inset 0 1px 0 rgba(255,255,255,.03);
+            cursor: default;
+        }
+        .fc-test::after { background: rgba(245,158,11,1); }
+        .fc-test:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 36px rgba(245,158,11,.14), 0 0 0 1px rgba(245,158,11,.3),
+                        inset 0 1px 0 rgba(255,255,255,.06);
+        }
+
+        /* ── Card icon ────────────────────────────────── */
+        .fc-icon-wrap {
+            width: 56px; height: 56px;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.7rem;
+            flex-shrink: 0;
+        }
+        .fc-odi  .fc-icon-wrap { background: rgba(34,197,94,.12);  border: 1px solid rgba(34,197,94,.2);  }
+        .fc-t20  .fc-icon-wrap { background: rgba(99,102,241,.12); border: 1px solid rgba(99,102,241,.2); }
+        .fc-test .fc-icon-wrap { background: rgba(245,158,11,.12); border: 1px solid rgba(245,158,11,.2); }
+
+        /* ── Badge ────────────────────────────────────── */
+        .fc-badge {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            padding: 2px 8px;
+            gap: 6px;
+            padding: 3px 10px;
             border-radius: 100px;
-            font-size: .65rem;
+            font-size: .64rem;
             font-weight: 700;
-            letter-spacing: .07em;
+            letter-spacing: .09em;
             text-transform: uppercase;
+            align-self: flex-start;
         }
-
-        .badge-live {
-            background: rgba(34,197,94,.15);
+        .badge-live  {
+            background: rgba(34,197,94,.12);
             color: #4ade80;
             border: 1px solid rgba(34,197,94,.3);
         }
-        .badge-live::before {
-            content: '';
-            display: inline-block;
-            width: 5px; height: 5px;
+        .badge-live .dot {
+            width: 6px; height: 6px;
             background: #4ade80;
             border-radius: 50%;
-            animation: pulse 1.5s ease-in-out infinite;
+            animation: blink 1.6s ease-in-out infinite;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50%       { opacity: .4; transform: scale(.7); }
+        @keyframes blink {
+            0%,100% { opacity: 1; box-shadow: 0 0 6px #4ade80; }
+            50%      { opacity: .3; box-shadow: none; }
         }
-
-        .badge-soon-t20  { background: rgba(59,130,246,.1); color: #93c5fd; border: 1px solid rgba(59,130,246,.2); }
-        .badge-soon-test { background: rgba(245,158,11,.1); color: #fcd34d; border: 1px solid rgba(245,158,11,.2); }
-
-        .format-arrow {
-            color: #4ade80;
-            font-size: 1.2rem;
-            opacity: 0;
-            transform: translateX(-6px);
-            transition: all .2s ease;
-            flex-shrink: 0;
+        .badge-soon-blue {
+            background: rgba(99,102,241,.1);
+            color: #a5b4fc;
+            border: 1px solid rgba(99,102,241,.25);
         }
-        .format-card.active:hover .format-arrow {
-            opacity: 1;
-            transform: translateX(0);
+        .badge-soon-gold {
+            background: rgba(245,158,11,.1);
+            color: #fcd34d;
+            border: 1px solid rgba(245,158,11,.22);
         }
 
-        .footer-note {
-            margin-top: 28px;
-            font-size: .75rem;
-            color: #2e3550;
-            letter-spacing: .04em;
+        /* ── Card content ─────────────────────────────── */
+        .fc-body { flex: 1; }
+
+        .fc-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -.02em;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+        .fc-odi  .fc-title { color: #dcfce7; }
+        .fc-t20  .fc-title { color: #e0e7ff; }
+        .fc-test .fc-title { color: #fef3c7; }
+
+        .fc-abbr {
+            font-size: .72rem;
+            font-weight: 500;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            opacity: .5;
+        }
+        .fc-odi  .fc-abbr { color: #4ade80; }
+        .fc-t20  .fc-abbr { color: #818cf8; }
+        .fc-test .fc-abbr { color: #f59e0b; }
+
+        .fc-desc {
+            font-size: .82rem;
+            color: #475569;
+            line-height: 1.55;
+        }
+
+        /* ── Stat pills ───────────────────────────────── */
+        .fc-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .stat-pill {
+            font-size: .68rem;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 100px;
+            letter-spacing: .03em;
+        }
+        .fc-odi  .stat-pill { background: rgba(34,197,94,.08);  color: #6ee7b7; border: 1px solid rgba(34,197,94,.15);  }
+        .fc-t20  .stat-pill { background: rgba(99,102,241,.08); color: #c7d2fe; border: 1px solid rgba(99,102,241,.15); }
+        .fc-test .stat-pill { background: rgba(245,158,11,.08); color: #fde68a; border: 1px solid rgba(245,158,11,.15); }
+
+        /* ── CTA arrow ────────────────────────────────── */
+        .fc-cta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .82rem;
+            font-weight: 600;
+        }
+        .fc-odi  .fc-cta { color: #22c55e; }
+        .fc-t20  .fc-cta { color: #6366f1; opacity: .5; }
+        .fc-test .fc-cta { color: #f59e0b; opacity: .5; }
+
+        .fc-arrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            transition: transform .2s ease, background .2s ease;
+        }
+        .fc-odi  .fc-arrow { background: rgba(34,197,94,.15); }
+        .fc-odi:hover .fc-arrow { background: rgba(34,197,94,.28); transform: translateX(4px); }
+
+        /* ── Lock overlay for coming soon ─────────────── */
+        .fc-lock {
+            position: absolute;
+            top: 16px; right: 16px;
+            font-size: .85rem;
+            opacity: .2;
+        }
+
+        /* ═══════════════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════════════ */
+        .page-footer {
+            margin-top: 52px;
+            text-align: center;
+            font-size: .72rem;
+            color: #1e293b;
+            letter-spacing: .06em;
+            animation: slideUp .7s .4s cubic-bezier(.16,1,.3,1) both;
+        }
+
+        /* ═══════════════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════════════ */
+        @media (max-width: 720px) {
+            .format-grid {
+                grid-template-columns: 1fr;
+                max-width: 420px;
+            }
+            .fc { min-height: auto; }
+            .ball { display: none; }
+        }
+        @media (max-width: 900px) and (min-width: 721px) {
+            .format-grid { grid-template-columns: 1fr 1fr; }
+            .fc-odi { grid-column: 1 / -1; flex-direction: row; }
+            .fc-odi .fc-body { flex: 1; }
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="logo">Cricsta</div>
-        <p class="tagline">Data-Driven Cricket Analytics</p>
-        <h1>Select a format to get started</h1>
+
+    <!-- ── Background scene ── -->
+    <div class="bg-scene">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="ball"></div>
+        <div class="stumps">
+            <div class="stump"><div class="bail"></div></div>
+            <div class="stump"></div>
+            <div class="stump"></div>
+        </div>
+    </div>
+
+    <!-- ── Main content ── -->
+    <main class="page">
+
+        <!-- Brand -->
+        <div class="brand">
+            <div class="brand-eyebrow">Cricket Analytics Platform</div>
+            <div class="brand-name">Cricsta</div>
+            <p class="brand-sub">
+                Explore <strong>career statistics</strong>, compare legends,
+                predict <strong>head-to-head</strong> outcomes and relive
+                <strong>trophy moments</strong> — all in one place.
+            </p>
+        </div>
+
+        <!-- Format chooser -->
+        <p class="formats-label">Select a format to begin</p>
 
         <div class="format-grid">
 
-            <!-- ODI – Live -->
-            <a href="/odi" class="format-card active">
-                <div class="format-icon">🏏</div>
-                <div class="format-info">
-                    <div class="format-name">
-                        One Day Internationals
-                        <span class="badge badge-live">Live</span>
-                    </div>
-                    <div class="format-desc">Top batting & bowling stats, player comparisons, head-to-head predictions &amp; trophy history</div>
+            <!-- ── ODI ── -->
+            <a href="/odi" class="fc fc-odi">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+                    <div class="fc-icon-wrap">🏏</div>
+                    <div class="fc-badge badge-live"><span class="dot"></span> Live</div>
                 </div>
-                <div class="format-arrow">→</div>
+
+                <div class="fc-body">
+                    <div class="fc-abbr">ODI</div>
+                    <div class="fc-title">One Day Internationals</div>
+                    <div class="fc-desc">
+                        Career batting & bowling stats for 2,500+ players, interactive comparison charts and ML-powered head-to-head predictions.
+                    </div>
+                </div>
+
+                <div class="fc-stats">
+                    <span class="stat-pill">📊 Stats</span>
+                    <span class="stat-pill">⚡ Comparisons</span>
+                    <span class="stat-pill">🤖 Predictions</span>
+                    <span class="stat-pill">🏆 Trophies</span>
+                </div>
+
+                <div class="fc-cta">
+                    Explore ODI
+                    <div class="fc-arrow">→</div>
+                </div>
             </a>
 
-            <!-- T20 – Coming Soon -->
-            <div class="format-card locked-t20">
-                <div class="format-icon">⚡</div>
-                <div class="format-info">
-                    <div class="format-name">
-                        T20 Internationals
-                        <span class="badge badge-soon-t20">Coming Soon</span>
+            <!-- ── T20 ── -->
+            <div class="fc fc-t20">
+                <div class="fc-lock">🔒</div>
+                <div style="display:flex; align-items:flex-start; gap:12px;">
+                    <div class="fc-icon-wrap">⚡</div>
+                    <div class="fc-badge badge-soon-blue">Coming Soon</div>
+                </div>
+
+                <div class="fc-body">
+                    <div class="fc-abbr">T20I</div>
+                    <div class="fc-title">T20 Internationals</div>
+                    <div class="fc-desc">
+                        Explosive run-rates, powerplay analysis, six-hitter rankings and match impact scores for the shortest format.
                     </div>
-                    <div class="format-desc">Explosive T20 run-rates, powerplay analysis, six-hitter rankings &amp; more</div>
+                </div>
+
+                <div class="fc-stats">
+                    <span class="stat-pill">💥 Strike Rate</span>
+                    <span class="stat-pill">🔥 Powerplay</span>
+                    <span class="stat-pill">6️⃣ Six Hitters</span>
+                </div>
+
+                <div class="fc-cta">
+                    In development
+                    <div class="fc-arrow">→</div>
                 </div>
             </div>
 
-            <!-- Test – Coming Soon -->
-            <div class="format-card locked-test">
-                <div class="format-icon">🛡️</div>
-                <div class="format-info">
-                    <div class="format-name">
-                        Test Cricket
-                        <span class="badge badge-soon-test">Coming Soon</span>
+            <!-- ── Test ── -->
+            <div class="fc fc-test">
+                <div class="fc-lock">🔒</div>
+                <div style="display:flex; align-items:flex-start; gap:12px;">
+                    <div class="fc-icon-wrap">🛡️</div>
+                    <div class="fc-badge badge-soon-gold">Coming Soon</div>
+                </div>
+
+                <div class="fc-body">
+                    <div class="fc-abbr">Tests</div>
+                    <div class="fc-title">Test Cricket</div>
+                    <div class="fc-desc">
+                        Career averages, innings consistency, pitch conditions analysis and historical series records across 150 years of the game.
                     </div>
-                    <div class="format-desc">Career averages, innings consistency, series records &amp; historical analysis</div>
+                </div>
+
+                <div class="fc-stats">
+                    <span class="stat-pill">📖 Career Avg</span>
+                    <span class="stat-pill">🌍 Series</span>
+                    <span class="stat-pill">📅 History</span>
+                </div>
+
+                <div class="fc-cta">
+                    In development
+                    <div class="fc-arrow">→</div>
                 </div>
             </div>
 
         </div>
 
-        <p class="footer-note">Cricsta &copy; 2025 &nbsp;·&nbsp; ODI data updated through 2019</p>
-    </div>
+        <div class="page-footer">
+            Cricsta &copy; 2025 &nbsp;·&nbsp; Data current through 2019 &nbsp;·&nbsp; Built with Flask &amp; Scikit-Learn
+        </div>
+    </main>
+
 </body>
 </html>
