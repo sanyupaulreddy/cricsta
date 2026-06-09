@@ -34,7 +34,7 @@ Cricsta_AD/
 │   ├── world_cup.jpeg           # World Cup trophy image
 │   └── champions_trophy.jpeg    # Champions Trophy image
 └── Python/
-    ├── App.py                   # Flask application
+    ├── app.py                   # Flask application
     ├── requirements.txt         # Python dependencies
     ├── head_to_head_model.pkl   # Pre-trained ML model
     └── scaler.pkl               # Feature scaler
@@ -57,7 +57,7 @@ pip install "numpy<2.0"
 
 ### 3. Start the Flask server
 ```bash
-python Python/App.py
+python Python/app.py
 ```
 
 ### 4. Open in browser
