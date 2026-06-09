@@ -13,7 +13,7 @@ const charts = {
 // DOM Elements
 const elements = {
   sections: () => document.querySelectorAll('.section'),
-  menuButtons: () => document.querySelectorAll('.menu-bar button'),
+  menuButtons: () => document.querySelectorAll('.sidebar-menu button, .menu-bar button'),
   trophySections: () => document.querySelectorAll('.trophy-section')
 };
 

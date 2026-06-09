@@ -39,17 +39,135 @@ body {
     line-height: 1.6;
 }
 
-/* ── 3. Header ───────────────────────────────────────────────── */
-.header {
+/* ── 3. Sidebar & Layout ──────────────────────────────────────── */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Left Sidebar */
+.sidebar {
+    width: 260px;
+    background-color: var(--clr-surface);
+    border-right: 1px solid var(--clr-border);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 24px 16px;
+    transition: var(--transition);
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px 28px;
+    border-bottom: 1px solid rgba(46, 53, 80, 0.3);
+    margin-bottom: 24px;
+}
+
+.sidebar-brand .brand-emoji {
+    font-size: 1.8rem;
+}
+
+.sidebar-brand .brand-text {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    background: linear-gradient(90deg, var(--clr-primary-lt), var(--clr-primary), #86efac);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.sidebar-menu button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    color: var(--clr-text-muted);
+    font-family: inherit;
+    font-size: .95rem;
+    font-weight: 500;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-align: left;
+    transition: var(--transition);
+    letter-spacing: .02em;
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-menu button .menu-icon {
+    font-size: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.sidebar-menu button:hover {
+    color: var(--clr-text);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-menu button:hover .menu-icon {
+    transform: scale(1.15);
+}
+
+.sidebar-menu button.active {
+    color: var(--clr-bg);
+    background-color: var(--clr-primary);
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.35);
+}
+
+.sidebar-menu button.active .menu-icon {
+    transform: scale(1.1);
+}
+
+.sidebar-footer {
+    padding-top: 16px;
+    border-top: 1px solid rgba(46, 53, 80, 0.3);
+    font-size: 0.78rem;
+    color: var(--clr-text-dim);
     text-align: center;
-    padding: 22px 20px 20px;
+    letter-spacing: 0.02em;
+}
+
+/* Main Content Wrapper */
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+/* Main Content Header */
+.main-header {
+    padding: 24px 32px;
     background: linear-gradient(135deg, #0d2b18 0%, #13391f 60%, #0f2d33 100%);
     border-bottom: 1px solid var(--clr-border);
     letter-spacing: .04em;
 }
 
-.header h1 {
-    font-size: clamp(1.3rem, 3vw, 2rem);
+.main-header h1 {
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
     font-weight: 800;
     background: linear-gradient(90deg, var(--clr-primary-lt), var(--clr-primary), #86efac);
     -webkit-background-clip: text;
@@ -59,63 +177,11 @@ body {
     letter-spacing: .08em;
 }
 
-/* ── 4. Navigation Bar ──────────────────────────────────────── */
-.menu-bar {
-    background-color: var(--clr-surface);
-    border-bottom: 1px solid var(--clr-border);
-    position: sticky;
-    top: 0;
-    z-index: 200;
-    display: flex;
-    overflow-x: auto;
-    padding: 0 8px;
-}
-
-.menu-bar::-webkit-scrollbar { display: none; }
-
-.menu-bar button {
-    flex-shrink: 0;
-    background: transparent;
-    border: none;
-    color: var(--clr-text-muted);
-    font-family: inherit;
-    font-size: .9rem;
-    font-weight: 500;
-    padding: 14px 20px;
-    cursor: pointer;
-    position: relative;
-    transition: var(--transition);
-    white-space: nowrap;
-    letter-spacing: .02em;
-}
-
-.menu-bar button::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 50%;
-    width: 0; height: 3px;
-    background: var(--clr-primary);
-    border-radius: 3px 3px 0 0;
-    transform: translateX(-50%);
-    transition: width .25s ease;
-}
-
-.menu-bar button:hover {
-    color: var(--clr-text);
-    background: rgba(255,255,255,.04);
-}
-
-.menu-bar button.active {
-    color: var(--clr-primary);
-}
-
-.menu-bar button.active::after { width: 70%; }
-
-/* ── 5. Content ──────────────────────────────────────────────── */
+/* ── 4. Content Area ────────────────────────────────────────── */
 .content {
-    padding: 32px 24px;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 32px 32px;
+    max-width: 1300px;
+    width: 100%;
 }
 
 .section { margin-bottom: 48px; }
@@ -487,8 +553,65 @@ img {
 ::-webkit-scrollbar-thumb:hover { background: var(--clr-text-dim); }
 
 /* ── 16. Responsive ─────────────────────────────────────────── */
+@media (max-width: 850px) {
+    .app-container {
+        flex-direction: column;
+    }
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--clr-border);
+        padding: 16px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .sidebar-brand {
+        padding: 0;
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+    .sidebar-menu {
+        flex-direction: row;
+        width: 100%;
+        overflow-x: auto;
+        padding-top: 8px;
+        gap: 6px;
+    }
+    .sidebar-menu::-webkit-scrollbar { display: none; }
+    .sidebar-menu button {
+        padding: 8px 14px;
+        font-size: 0.88rem;
+        white-space: nowrap;
+        justify-content: center;
+    }
+    .sidebar-footer {
+        display: none;
+    }
+    .main-content {
+        margin-left: 0;
+    }
+    .main-header {
+        padding: 16px 20px;
+    }
+    .content {
+        padding: 24px 16px;
+    }
+}
+
 @media (max-width: 680px) {
-    .content { padding: 20px 14px; }
+    .sidebar {
+        padding: 12px;
+    }
+    .sidebar-menu button {
+        padding: 6px 10px;
+        font-size: 0.82rem;
+    }
+    .content { padding: 20px 12px; }
     .graph-container { height: 300px; }
     .controls-row { flex-direction: column; align-items: stretch; }
     select, button { width: 100%; }
