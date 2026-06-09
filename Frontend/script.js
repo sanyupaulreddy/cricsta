@@ -1,17 +1,6 @@
-javascript
-// API URL Configuration - automatically adapts to environment
-const FLASK_API_URL = (() => {
-  const host = window.location.hostname;
-  const protocol = window.location.protocol;
-  
-  // Local development
-  if (host === 'localhost' || host === '127.0.0.1') {
-    return 'http://127.0.0.1:5000';
-  }
-  
-  // Production (replace with your actual Render URL)
-  return 'https://cricsta.onrender.com'; 
-})();
+// API URL Configuration - use relative paths to avoid CORS and host mismatch errors
+const FLASK_API_URL = '';
+
 
 // Global chart references
 const charts = {
@@ -92,12 +81,13 @@ function renderTopBattingGraph() {
       datasets: [{
         label: 'Runs',
         data: battingData.runs,
-        backgroundColor: 'rgba(70, 130, 180, 0.8)',
-        borderColor: '#4682B4',
-        borderWidth: 1
+        backgroundColor: 'rgba(34, 197, 94, 0.75)',
+        borderColor: '#22c55e',
+        borderWidth: 1,
+        borderRadius: 6,
       }]
     },
-    options: getChartOptions('runs')
+    options: getChartOptions('Runs')
   });
 }
 
@@ -116,12 +106,13 @@ function renderTopBowlingGraph() {
       datasets: [{
         label: 'Wickets',
         data: bowlingData.wickets,
-        backgroundColor: 'rgba(70, 130, 180, 0.8)',
-        borderColor: '#4682B4',
-        borderWidth: 1
+        backgroundColor: 'rgba(59, 130, 246, 0.75)',
+        borderColor: '#3b82f6',
+        borderWidth: 1,
+        borderRadius: 6,
       }]
     },
-    options: getChartOptions('wickets')
+    options: getChartOptions('Wickets')
   });
 }
 
@@ -129,13 +120,31 @@ function getChartOptions(metric) {
   return {
     responsive: true,
     maintainAspectRatio: false,
-    scales: { y: { beginAtZero: true } },
     plugins: {
-      legend: { display: true },
+      legend: {
+        display: true,
+        labels: { color: '#94a3b8', font: { family: 'Inter', size: 12 } }
+      },
       tooltip: {
+        backgroundColor: '#1a1f2e',
+        titleColor: '#e2e8f0',
+        bodyColor: '#94a3b8',
+        borderColor: '#2e3550',
+        borderWidth: 1,
         callbacks: {
-          label: (context) => `${context.label}: ${context.raw} ${metric}`
+          label: (context) => ` ${context.raw} ${metric}`
         }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color: '#64748b', font: { family: 'Inter', size: 11 } },
+        grid: { color: 'rgba(46,53,80,.5)' }
+      },
+      y: {
+        beginAtZero: true,
+        ticks: { color: '#64748b', font: { family: 'Inter', size: 11 } },
+        grid: { color: 'rgba(46,53,80,.5)' }
       }
     }
   };
@@ -304,3 +313,12 @@ document.addEventListener('DOMContentLoaded', () => {
     updateBowlers();
   }
 });
+
+// Global wrappers for inline HTML onclick handlers
+function compareBattingPlayers() {
+  comparePlayers('batting');
+}
+
+function compareBowlingPlayers() {
+  comparePlayers('bowling');
+}

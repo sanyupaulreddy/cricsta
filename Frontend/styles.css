@@ -1,147 +1,323 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background-color: #f9f9f9;
+/* ============================================================
+   CRICSTA – Clean Modern Dark Theme
+   ============================================================ */
+
+/* ── 1. Design Tokens ───────────────────────────────────────── */
+:root {
+    --clr-bg:          #0f1117;
+    --clr-surface:     #1a1f2e;
+    --clr-surface-2:   #222840;
+    --clr-border:      #2e3550;
+    --clr-primary:     #22c55e;
+    --clr-primary-dk:  #16a34a;
+    --clr-primary-lt:  #4ade80;
+    --clr-accent:      #3b82f6;
+    --clr-gold:        #f59e0b;
+    --clr-text:        #e2e8f0;
+    --clr-text-muted:  #94a3b8;
+    --clr-text-dim:    #64748b;
+    --radius-sm:       6px;
+    --radius-md:       12px;
+    --radius-lg:       18px;
+    --shadow-sm:       0 2px 8px rgba(0,0,0,.35);
+    --shadow-md:       0 4px 20px rgba(0,0,0,.45);
+    --shadow-glow:     0 0 18px rgba(34,197,94,.18);
+    --transition:      all .2s ease;
 }
 
+/* ── 2. Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--clr-bg);
+    color: var(--clr-text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* ── 3. Header ───────────────────────────────────────────────── */
 .header {
     text-align: center;
-    padding: 20px;
-    background-color: #4CAF50;
-    color: white;
+    padding: 22px 20px 20px;
+    background: linear-gradient(135deg, #0d2b18 0%, #13391f 60%, #0f2d33 100%);
+    border-bottom: 1px solid var(--clr-border);
+    letter-spacing: .04em;
 }
 
+.header h1 {
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--clr-primary-lt), var(--clr-primary), #86efac);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+
+/* ── 4. Navigation Bar ──────────────────────────────────────── */
 .menu-bar {
-    background-color: #333;
-    overflow: hidden;
+    background-color: var(--clr-surface);
+    border-bottom: 1px solid var(--clr-border);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 200;
+    display: flex;
+    overflow-x: auto;
+    padding: 0 8px;
 }
 
+.menu-bar::-webkit-scrollbar { display: none; }
+
 .menu-bar button {
-    float: left;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 16px;
-    background-color: #333;
+    flex-shrink: 0;
+    background: transparent;
     border: none;
+    color: var(--clr-text-muted);
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 500;
+    padding: 14px 20px;
     cursor: pointer;
+    position: relative;
+    transition: var(--transition);
+    white-space: nowrap;
+    letter-spacing: .02em;
+}
+
+.menu-bar button::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%;
+    width: 0; height: 3px;
+    background: var(--clr-primary);
+    border-radius: 3px 3px 0 0;
+    transform: translateX(-50%);
+    transition: width .25s ease;
 }
 
 .menu-bar button:hover {
-    background-color: #45a049;
+    color: var(--clr-text);
+    background: rgba(255,255,255,.04);
 }
 
 .menu-bar button.active {
-    background-color: #4CAF50;
+    color: var(--clr-primary);
 }
 
+.menu-bar button.active::after { width: 70%; }
+
+/* ── 5. Content ──────────────────────────────────────────────── */
 .content {
-    padding: 20px;
+    padding: 32px 24px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.section {
-    margin-bottom: 40px;
-}
+.section { margin-bottom: 48px; }
 
+/* ── 6. Section Headings ─────────────────────────────────────── */
 h2 {
-    color: #333;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--clr-text);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--clr-border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* Stylish Welcome Heading */
+h2::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 1.2em;
+    background: var(--clr-primary);
+    border-radius: 2px;
+}
+
+h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--clr-text-muted);
+    margin: 24px 0 12px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-size: .8rem;
+}
+
+/* ── 7. Welcome Heading (Home) ─────────────────────────────── */
 .welcome-heading {
-    font-size: 36px;
-    font-weight: bold;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800;
     text-align: center;
-    background: linear-gradient(45deg, #4CAF50, #45a049);
+    background: linear-gradient(120deg, var(--clr-primary-lt), var(--clr-primary), var(--clr-accent));
     -webkit-background-clip: text;
-    color: transparent;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 1.5s ease-in-out;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 28px;
+    animation: slideDown .6s ease both;
 }
 
-@keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(-20px); }
-    100% { opacity: 1; transform: translateY(0); }
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Cricket Facts Section */
-.cricket-facts {
-    margin-top: 20px;
-}
+/* ── 8. Cricket Facts ────────────────────────────────────────── */
+.cricket-facts { margin-top: 8px; }
 
 .cricket-facts h3 {
-    font-size: 24px;
-    color: #4CAF50;
+    font-size: 1rem;
+    color: var(--clr-primary);
     text-align: center;
-    margin-bottom: 15px;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 18px;
 }
 
-.cricket-facts ul {
-    list-style-type: none;
-    padding: 0;
-}
+.cricket-facts ul { list-style: none; padding: 0; }
 
 .cricket-facts li {
-    background-color: #fff;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 16px;
-    color: #333;
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    color: var(--clr-text);
+    padding: 12px 16px;
+    margin: 8px 0;
+    border-radius: var(--radius-sm);
+    font-size: .9rem;
+    line-height: 1.5;
+    transition: var(--transition);
+    border-left: 3px solid transparent;
 }
 
+.cricket-facts li:hover {
+    border-left-color: var(--clr-primary);
+    background: var(--clr-surface-2);
+    transform: translateX(4px);
+}
+
+/* ── 9. Tables ──────────────────────────────────────────────── */
 table {
     width: 100%;
     border-collapse: collapse;
+    margin: 16px 0 28px;
+    font-size: .88rem;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+thead tr { background: linear-gradient(90deg, var(--clr-primary-dk), var(--clr-primary)); }
+
+th {
+    color: #fff;
+    font-weight: 600;
+    padding: 12px 14px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-size: .75rem;
+}
+
+td {
+    padding: 11px 14px;
+    text-align: center;
+    border-bottom: 1px solid var(--clr-border);
+    color: var(--clr-text);
+    background: var(--clr-surface);
+}
+
+tbody tr:last-child td { border-bottom: none; }
+
+tbody tr:nth-child(even) td { background: var(--clr-surface-2); }
+
+tbody tr:hover td {
+    background: rgba(34, 197, 94, .07);
+    color: #fff;
+}
+
+/* ── 10. Form Controls ──────────────────────────────────────── */
+.controls-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px;
     margin: 20px 0;
 }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
-
-th {
-    background-color: #4CAF50;
-    color: white;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
+label {
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--clr-text-muted);
     display: block;
-    margin: 20px auto;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
 }
 
-select, button {
-    padding: 8px;
-    margin: 5px;
+select {
+    background: var(--clr-surface-2);
+    border: 1px solid var(--clr-border);
+    color: var(--clr-text);
+    border-radius: var(--radius-sm);
+    padding: 9px 36px 9px 12px;
+    font-family: inherit;
+    font-size: .88rem;
+    cursor: pointer;
+    transition: var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+select:hover, select:focus {
+    border-color: var(--clr-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(34,197,94,.12);
 }
 
 button {
-    background-color: #4CAF50;
-    color: white;
+    background: linear-gradient(135deg, var(--clr-primary), var(--clr-primary-dk));
+    color: #fff;
     border: none;
+    border-radius: var(--radius-sm);
+    padding: 10px 22px;
+    font-family: inherit;
+    font-size: .88rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: var(--transition);
+    letter-spacing: .03em;
+    box-shadow: 0 2px 6px rgba(34,197,94,.25);
 }
 
 button:hover {
-    background-color: #45a049;
+    background: linear-gradient(135deg, var(--clr-primary-lt), var(--clr-primary));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
 }
 
+button:active { transform: translateY(0); }
+
+/* ── 11. Graph Container ────────────────────────────────────── */
 .graph-container {
-    width: 800px;
-    height: 500px;
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    width: 100%;
+    max-width: 820px;
+    height: 420px;
     margin: 20px auto;
+    box-shadow: var(--shadow-sm);
 }
 
 .graph-container canvas {
@@ -149,63 +325,171 @@ button:hover {
     height: 100% !important;
 }
 
-#head-to-head-result {
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    background-color: #fff;
+/* ── 12. Head-to-Head Result ─────────────────────────────────── */
+#head-to-head-result { margin-top: 24px; }
+
+.head-to-head-result {
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+    padding: 24px 28px;
+    box-shadow: var(--shadow-sm);
+    animation: fadeUp .4s ease both;
 }
 
-/* Trophy Bar Styles */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.head-to-head-result h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--clr-primary-lt);
+    text-transform: none;
+    letter-spacing: 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.stats-grid div {
+    background: var(--clr-surface-2);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    text-align: center;
+    font-size: .88rem;
+    color: var(--clr-text);
+}
+
+.stats-grid div span {
+    display: block;
+    font-size: .7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--clr-text-muted);
+    margin-bottom: 4px;
+}
+
+.prediction {
+    text-align: center;
+    background: linear-gradient(135deg, rgba(34,197,94,.12), rgba(59,130,246,.08));
+    border: 1px solid rgba(34,197,94,.25);
+    border-radius: var(--radius-sm);
+    padding: 14px 20px;
+    font-size: .95rem;
+    color: var(--clr-primary-lt);
+    font-weight: 600;
+}
+
+.error {
+    color: #f87171;
+    text-align: center;
+    padding: 12px;
+    background: rgba(248,113,113,.08);
+    border: 1px solid rgba(248,113,113,.25);
+    border-radius: var(--radius-sm);
+}
+
+/* ── 13. Trophy Bar ─────────────────────────────────────────── */
 .trophy-container {
     display: flex;
     justify-content: center;
-    gap: 30px; /* Space between trophies */
-    flex-wrap: wrap; /* Responsive wrapping */
-    margin: 20px 0;
+    gap: 36px;
+    flex-wrap: wrap;
+    margin: 28px 0;
 }
 
 .trophy-item {
     text-align: center;
+    cursor: pointer;
 }
 
 .trophy-item h3 {
-    font-size: 1.4em;
-    color: #4CAF50; /* Matches your theme */
+    color: var(--clr-gold);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 1rem;
     margin-bottom: 10px;
 }
 
 .trophy-img {
     width: 150px;
     height: 150px;
-    object-fit: cover; /* Ensures image fits nicely */
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Matches cricket-facts shadow */
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--clr-border);
+    box-shadow: var(--shadow-md);
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
 }
 
 .trophy-img:hover {
-    transform: scale(1.1);
+    transform: scale(1.08) translateY(-4px);
+    box-shadow: 0 8px 28px rgba(245,158,11,.3);
+    border-color: var(--clr-gold);
 }
 
-.trophy-section {
-    margin-top: 20px;
-}
+.trophy-section { margin-top: 28px; animation: fadeUp .4s ease both; }
 
 .trophy-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
-}
-
-.trophy-table th, .trophy-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
+    margin: 16px 0;
+    font-size: .88rem;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
 }
 
 .trophy-table th {
-    background-color: #4CAF50;
-    color: white;
+    background: linear-gradient(90deg, #92400e, var(--clr-gold));
+    color: #1a1200;
+    font-weight: 700;
+    padding: 12px 14px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    font-size: .75rem;
+}
+
+.trophy-table td {
+    background: var(--clr-surface);
+    border-bottom: 1px solid var(--clr-border);
+    padding: 11px 14px;
+    text-align: center;
+    color: var(--clr-text);
+}
+
+.trophy-table tbody tr:nth-child(even) td { background: var(--clr-surface-2); }
+.trophy-table tbody tr:last-child td { border-bottom: none; }
+.trophy-table tbody tr:hover td { background: rgba(245,158,11,.07); }
+
+/* ── 14. Images ────────────────────────────────────────────── */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 16px auto;
+}
+
+/* ── 15. Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--clr-bg); }
+::-webkit-scrollbar-thumb { background: var(--clr-border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--clr-text-dim); }
+
+/* ── 16. Responsive ─────────────────────────────────────────── */
+@media (max-width: 680px) {
+    .content { padding: 20px 14px; }
+    .graph-container { height: 300px; }
+    .controls-row { flex-direction: column; align-items: stretch; }
+    select, button { width: 100%; }
 }

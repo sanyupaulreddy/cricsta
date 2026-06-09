@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ODI Cricket Stats</title>
+    <title>Cricsta – ODI Cricket Stats</title>
+    <meta name="description" content="Cricsta: Explore ODI cricket batting and bowling statistics, player comparisons, head-to-head predictions and trophy history.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -60,30 +64,38 @@
                 <canvas id="topBattingGraph"></canvas>
             </div>
             <h3>Compare Batsmen</h3>
-            <label for="batting-player1">Player 1:</label>
-            <select id="batting-player1">
-                <option value="">Select Player 1</option>
-                {% for player in batting_players %}
-                    <option value="{{ player }}">{{ player }}</option>
-                {% endfor %}
-            </select>
-            <label for="batting-player2">Player 2:</label>
-            <select id="batting-player2">
-                <option value="">Select Player 2</option>
-                {% for player in batting_players %}
-                    <option value="{{ player }}">{{ player }}</option>
-                {% endfor %}
-            </select>
-            <label for="batting-attribute">Attribute:</label>
-            <select id="batting-attribute">
-                <option value="Runs">Runs</option>
-                <option value="Mat">Matches</option>
-                <option value="Ave">Average</option>
-                <option value="SR">Strike Rate</option>
-                <option value="100">Centuries</option>
-                <option value="50">Half-Centuries</option>
-            </select>
-            <button onclick="compareBattingPlayers()">Compare</button>
+            <div class="controls-row">
+                <div>
+                    <label for="batting-player1">Player 1</label>
+                    <select id="batting-player1">
+                        <option value="">Select Player 1</option>
+                        {% for player in batting_players %}
+                            <option value="{{ player }}">{{ player }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="batting-player2">Player 2</label>
+                    <select id="batting-player2">
+                        <option value="">Select Player 2</option>
+                        {% for player in batting_players %}
+                            <option value="{{ player }}">{{ player }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="batting-attribute">Attribute</label>
+                    <select id="batting-attribute">
+                        <option value="Runs">Runs</option>
+                        <option value="Mat">Matches</option>
+                        <option value="Ave">Average</option>
+                        <option value="SR">Strike Rate</option>
+                        <option value="100">Centuries</option>
+                        <option value="50">Half-Centuries</option>
+                    </select>
+                </div>
+                <button id="compare-batting-btn" onclick="compareBattingPlayers()">Compare</button>
+            </div>
             <div class="graph-container">
                 <canvas id="battingComparisonGraph"></canvas>
             </div>
@@ -98,31 +110,39 @@
                 <canvas id="topBowlingGraph"></canvas>
             </div>
             <h3>Compare Bowlers</h3>
-            <label for="bowling-player1">Player 1:</label>
-            <select id="bowling-player1">
-                <option value="">Select Player 1</option>
-                {% for player in bowling_players %}
-                    <option value="{{ player }}">{{ player }}</option>
-                {% endfor %}
-            </select>
-            <label for="bowling-player2">Player 2:</label>
-            <select id="bowling-player2">
-                <option value="">Select Player 2</option>
-                {% for player in bowling_players %}
-                    <option value="{{ player }}">{{ player }}</option>
-                {% endfor %}
-            </select>
-            <label for="bowling-attribute">Attribute:</label>
-            <select id="bowling-attribute">
-                <option value="Wkts">Wickets</option>
-                <option value="Mat">Matches</option>
-                <option value="Ave">Average</option>
-                <option value="Econ">Economy</option>
-                <option value="SR">Strike Rate</option>
-                <option value="4">Four-Wickets</option>
-                <option value="5">Five-Wickets</option>
-            </select>
-            <button onclick="compareBowlingPlayers()">Compare</button>
+            <div class="controls-row">
+                <div>
+                    <label for="bowling-player1">Player 1</label>
+                    <select id="bowling-player1">
+                        <option value="">Select Player 1</option>
+                        {% for player in bowling_players %}
+                            <option value="{{ player }}">{{ player }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="bowling-player2">Player 2</label>
+                    <select id="bowling-player2">
+                        <option value="">Select Player 2</option>
+                        {% for player in bowling_players %}
+                            <option value="{{ player }}">{{ player }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="bowling-attribute">Attribute</label>
+                    <select id="bowling-attribute">
+                        <option value="Wkts">Wickets</option>
+                        <option value="Mat">Matches</option>
+                        <option value="Ave">Average</option>
+                        <option value="Econ">Economy</option>
+                        <option value="SR">Strike Rate</option>
+                        <option value="4">Four-Wickets</option>
+                        <option value="5">Five-Wickets</option>
+                    </select>
+                </div>
+                <button id="compare-bowling-btn" onclick="compareBowlingPlayers()">Compare</button>
+            </div>
             <div class="graph-container">
                 <canvas id="bowlingComparisonGraph"></canvas>
             </div>
@@ -131,18 +151,24 @@
         <!-- Head-to-Head Section -->
         <div id="head-to-head" class="section" style="display: none;">
             <h2>Head-to-Head Stats</h2>
-            <label for="batsman">Select Batsman:</label>
-            <select id="batsman" name="batsman" onchange="updateBowlers()">
-                <option value="">Select Batsman</option>
-                {% for batsman in batsmen %}
-                    <option value="{{ batsman }}" data-country="{{ batsman.split(' (')[1].replace(')', '') }}">{{ batsman }}</option>
-                {% endfor %}
-            </select>
-            <label for="bowler">Select Bowler:</label>
-            <select id="bowler" name="bowler">
-                <option value="">Select Bowler</option>
-            </select>
-            <button onclick="predictHeadToHead()">Predict</button>
+            <div class="controls-row">
+                <div>
+                    <label for="batsman">Batsman</label>
+                    <select id="batsman" name="batsman" onchange="updateBowlers()">
+                        <option value="">Select Batsman</option>
+                        {% for batsman in batsmen %}
+                            <option value="{{ batsman }}" data-country="{{ batsman.split(' (')[1].replace(')', '') }}">{{ batsman }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="bowler">Bowler</label>
+                    <select id="bowler" name="bowler">
+                        <option value="">Select Bowler</option>
+                    </select>
+                </div>
+                <button id="predict-btn" onclick="predictHeadToHead()">Predict</button>
+            </div>
             <div id="head-to-head-result"></div>
         </div>
 

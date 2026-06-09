@@ -60,6 +60,14 @@ except Exception as e:
     raise
 
 @app.route('/')
+def format_selection():
+    try:
+        return render_template('select_format.html')
+    except Exception as e:
+        logger.error(f"Error in format selection route: {e}")
+        return render_template('error.html', error_message="Failed to load page"), 500
+
+@app.route('/odi')
 def index():
     try:
         # Prepare batting data

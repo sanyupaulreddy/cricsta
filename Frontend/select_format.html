@@ -3,48 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Cricket Format</title>
+    <title>Cricsta – Choose a Format</title>
+    <meta name="description" content="Cricsta cricket analytics platform. Choose a format to explore ODI, T20 or Test statistics.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: #0f1117;
+            color: #e2e8f0;
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
+            padding: 24px;
+            overflow-x: hidden;
         }
-        .container {
+
+        /* Animated grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(34,197,94,.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(34,197,94,.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Glow orbs */
+        body::after {
+            content: '';
+            position: fixed;
+            top: -200px; left: 50%;
+            transform: translateX(-50%);
+            width: 700px; height: 400px;
+            background: radial-gradient(ellipse, rgba(34,197,94,.07) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .card {
+            position: relative;
+            z-index: 1;
+            background: rgba(26, 31, 46, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid #2e3550;
+            border-radius: 24px;
+            padding: 52px 56px;
             text-align: center;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 8px 40px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.03);
+            animation: fadeUp .5s ease both;
         }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            display: inline-block;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(120deg, #4ade80, #22c55e, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -.03em;
+            margin-bottom: 6px;
+        }
+
+        .tagline {
+            font-size: .82rem;
+            color: #475569;
+            margin-bottom: 36px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
         h1 {
-            color: #333;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #64748b;
+            margin-bottom: 28px;
+            letter-spacing: .02em;
         }
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
+
+        /* ── Format Cards ─────────────────────────────── */
+        .format-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .format-card {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 18px 20px;
+            border-radius: 14px;
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: all .22s ease;
             cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            text-align: left;
         }
-        button:hover {
-            background-color: #45a049;
+
+        /* Active: ODI */
+        .format-card.active {
+            background: linear-gradient(135deg, rgba(34,197,94,.12), rgba(34,197,94,.05));
+            border-color: rgba(34,197,94,.3);
         }
-        .disabled {
-            background-color: #cccccc;
+        .format-card.active:hover {
+            background: linear-gradient(135deg, rgba(34,197,94,.2), rgba(34,197,94,.08));
+            border-color: rgba(34,197,94,.55);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(34,197,94,.18);
+        }
+
+        /* Locked: T20 */
+        .format-card.locked-t20 {
+            background: linear-gradient(135deg, rgba(59,130,246,.07), rgba(59,130,246,.03));
+            border-color: rgba(59,130,246,.15);
             cursor: not-allowed;
+        }
+
+        /* Locked: Test */
+        .format-card.locked-test {
+            background: linear-gradient(135deg, rgba(245,158,11,.07), rgba(245,158,11,.03));
+            border-color: rgba(245,158,11,.15);
+            cursor: not-allowed;
+        }
+
+        .format-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .format-card.active    .format-icon { background: rgba(34,197,94,.12); }
+        .format-card.locked-t20  .format-icon { background: rgba(59,130,246,.1); }
+        .format-card.locked-test .format-icon { background: rgba(245,158,11,.1); }
+
+        .format-info { flex: 1; }
+
+        .format-name {
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 3px;
+        }
+
+        .format-card.active    .format-name { color: #4ade80; }
+        .format-card.locked-t20  .format-name { color: #93c5fd; }
+        .format-card.locked-test .format-name { color: #fcd34d; }
+
+        .format-desc {
+            font-size: .78rem;
+            color: #475569;
+            line-height: 1.4;
+        }
+
+        .format-card.active .format-desc { color: #6ee7b7; opacity: .7; }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 100px;
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+        }
+
+        .badge-live {
+            background: rgba(34,197,94,.15);
+            color: #4ade80;
+            border: 1px solid rgba(34,197,94,.3);
+        }
+        .badge-live::before {
+            content: '';
+            display: inline-block;
+            width: 5px; height: 5px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: .4; transform: scale(.7); }
+        }
+
+        .badge-soon-t20  { background: rgba(59,130,246,.1); color: #93c5fd; border: 1px solid rgba(59,130,246,.2); }
+        .badge-soon-test { background: rgba(245,158,11,.1); color: #fcd34d; border: 1px solid rgba(245,158,11,.2); }
+
+        .format-arrow {
+            color: #4ade80;
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translateX(-6px);
+            transition: all .2s ease;
+            flex-shrink: 0;
+        }
+        .format-card.active:hover .format-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .footer-note {
+            margin-top: 28px;
+            font-size: .75rem;
+            color: #2e3550;
+            letter-spacing: .04em;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Choose a Cricket Format</h1>
-        <a href="/odi"><button>ODI</button></a>
-        <button class="disabled" disabled>T20 (Coming Soon)</button>
-        <button class="disabled" disabled>Test (Coming Soon)</button>
+    <div class="card">
+        <div class="logo">Cricsta</div>
+        <p class="tagline">Data-Driven Cricket Analytics</p>
+        <h1>Select a format to get started</h1>
+
+        <div class="format-grid">
+
+            <!-- ODI – Live -->
+            <a href="/odi" class="format-card active">
+                <div class="format-icon">🏏</div>
+                <div class="format-info">
+                    <div class="format-name">
+                        One Day Internationals
+                        <span class="badge badge-live">Live</span>
+                    </div>
+                    <div class="format-desc">Top batting & bowling stats, player comparisons, head-to-head predictions &amp; trophy history</div>
+                </div>
+                <div class="format-arrow">→</div>
+            </a>
+
+            <!-- T20 – Coming Soon -->
+            <div class="format-card locked-t20">
+                <div class="format-icon">⚡</div>
+                <div class="format-info">
+                    <div class="format-name">
+                        T20 Internationals
+                        <span class="badge badge-soon-t20">Coming Soon</span>
+                    </div>
+                    <div class="format-desc">Explosive T20 run-rates, powerplay analysis, six-hitter rankings &amp; more</div>
+                </div>
+            </div>
+
+            <!-- Test – Coming Soon -->
+            <div class="format-card locked-test">
+                <div class="format-icon">🛡️</div>
+                <div class="format-info">
+                    <div class="format-name">
+                        Test Cricket
+                        <span class="badge badge-soon-test">Coming Soon</span>
+                    </div>
+                    <div class="format-desc">Career averages, innings consistency, series records &amp; historical analysis</div>
+                </div>
+            </div>
+
+        </div>
+
+        <p class="footer-note">Cricsta &copy; 2025 &nbsp;·&nbsp; ODI data updated through 2019</p>
     </div>
 </body>
 </html>
